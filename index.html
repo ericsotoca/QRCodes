@@ -65,6 +65,10 @@
             padding: 1rem;
             border-radius: 15px;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            min-height: 100px; /* Ajout d'une hauteur minimale pour la visibilité */
+            display: flex; /* Pour centrer facilement le contenu */
+            align-items: center;
+            justify-content: center;
             animation: slideIn 0.5s ease;
         }
         .form-group {
@@ -142,19 +146,24 @@
             </div>
         </form>
 
-        <div id="qrcode"></div>
+        <div id="qrcode">
+             <!-- Le QR code sera généré ici -->
+        </div>
     </div>
 
     <!-- Librairies -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- IMPORTANT : La librairie qrcode.min.js AVANT votre script personnalisé -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
+    <!-- Votre script personnalisé -->
     <script>
         $(document).ready(function() {
             const qrCodeDiv = document.getElementById('qrcode');
             const downloadBtn = document.getElementById('downloadBtn');
-            let qrCode = null;
+            // Note : `qrCode` n'est plus une variable globale ici,
+            // car on la crée à chaque génération.
 
             // Fonction pour générer le QR Code
             function generateQRCode() {
@@ -163,29 +172,45 @@
                 const color = document.getElementById('color').value;
                 const bgColor = document.getElementById('bgColor').value;
 
-                // Vider le conteneur
+                // Vider le conteneur précédent
                 qrCodeDiv.innerHTML = '';
-                downloadBtn.disabled = !data;
+                downloadBtn.disabled = !data; // Désactive le bouton si pas de données
 
                 if (data) {
-                    // Créer un nouveau QR Code
-                    qrCode = new QRCode(qrCodeDiv, {
-                        text: data,
-                        width: size,
-                        height: size,
-                        colorDark: color,
-                        colorLight: bgColor,
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
+                    try {
+                        // Créer un nouveau QR Code
+                        // La variable `qrCode` est locale à cette instance de génération
+                        // mais ce n'est pas grave pour l'affichage.
+                        // Pour le téléchargement, on récupère le canvas directement.
+                        new QRCode(qrCodeDiv, {
+                            text: data,
+                            width: size,
+                            height: size,
+                            colorDark: color,
+                            colorLight: bgColor,
+                            correctLevel: QRCode.CorrectLevel.H // Ceci devrait fonctionner maintenant
+                        });
+                         // Le bouton est déjà activé ci-dessus si data existe
+                    } catch (error) {
+                         console.error("Erreur lors de la génération du QR Code:", error);
+                         // Afficher un message d'erreur à l'utilisateur
+                         qrCodeDiv.innerHTML = '<p class="text-danger">Impossible de générer le QR code. Vérifiez que la librairie est chargée.</p>';
+                         downloadBtn.disabled = true; // Désactiver le bouton en cas d'erreur
+                    }
+                } else {
+                    // Optionnel: Afficher un message si le champ est vide
+                    qrCodeDiv.innerHTML = '<p class="text-muted">Entrez du contenu pour générer un QR code.</p>';
                 }
             }
 
-            // Gestion des événements
+            // Gestion des événements sur les champs de formulaire
             const inputs = ['data', 'size', 'color', 'bgColor'];
             inputs.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
+                    // Utiliser 'input' pour une réaction immédiate (sauf pour color peut-être)
                     element.addEventListener('input', generateQRCode);
+                    // 'change' est utile pour les color pickers après la sélection finale
                     element.addEventListener('change', generateQRCode);
                 }
             });
@@ -193,41 +218,94 @@
             // Téléchargement du QR Code
             downloadBtn.addEventListener('click', function() {
                 const format = document.getElementById('format').value;
-                const canvas = qrCodeDiv.querySelector('canvas');
+                const canvas = qrCodeDiv.querySelector('canvas'); // Recherche le canvas DANS la div qrcode
 
                 if (canvas) {
                     const dataUrl = canvas.toDataURL(`image/${format}`);
                     const link = document.createElement('a');
-                    link.download = `qrcode.${format}`;
+                    // Nom de fichier dynamique basé sur le contenu (simplifié) ou fixe
+                    let filename = "qrcode";
+                    const dataInput = document.getElementById('data').value.trim();
+                    if (dataInput) {
+                        // Essayer de créer un nom de fichier plus pertinent (attention aux caractères spéciaux)
+                        filename = dataInput.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase() || "qrcode";
+                    }
+                    link.download = `${filename}.${format}`;
                     link.href = dataUrl;
+                    document.body.appendChild(link); // Requis pour Firefox dans certains cas
                     link.click();
+                    document.body.removeChild(link); // Nettoyer le DOM
                 } else {
-                    console.warn('Aucun canvas trouvé pour le téléchargement');
+                    console.warn('Aucun canvas trouvé pour le téléchargement. Le QR Code a-t-il été généré ?');
+                    // Optionnel: Informer l'utilisateur
+                    alert("Impossible de télécharger : aucun QR code n'est affiché.");
                 }
             });
 
-            // Tests unitaires
+            // --- Section Tests Unitaires ---
             function runTests() {
                 console.log('Exécution des tests...');
+                let testPassed = true;
+
+                // Fonction utilitaire pour simuler une entrée utilisateur et déclencher l'événement
+                function simulateInput(elementId, value) {
+                    const element = document.getElementById(elementId);
+                    element.value = value;
+                    // Déclencher 'input' pour que generateQRCode soit appelée
+                    element.dispatchEvent(new Event('input', { bubbles: true }));
+                     // Déclencher 'change' aussi pour être sûr
+                    element.dispatchEvent(new Event('change', { bubbles: true }));
+                }
 
                 // Test 1: Vérification de la génération avec données vides
-                document.getElementById('data').value = '';
-                generateQRCode();
-                console.assert(qrCodeDiv.children.length === 0, 'Test 1 échoué: QR Code généré avec données vides');
+                console.log("Test 1: Données vides...");
+                simulateInput('data', '');
+                // Attendre un très court instant que le DOM se mette à jour (si nécessaire)
+                setTimeout(() => {
+                    const canvasExistsEmpty = qrCodeDiv.querySelector('canvas') !== null;
+                    console.assert(!canvasExistsEmpty, 'Test 1 ÉCHOUÉ: Un canvas existe alors que les données sont vides.');
+                    if (canvasExistsEmpty) testPassed = false;
 
-                // Test 2: Vérification de la génération avec données
-                document.getElementById('data').value = 'https://example.com';
-                generateQRCode();
-                console.assert(qrCodeDiv.children.length > 0, 'Test 2 échoué: QR Code non généré avec données');
+                    // Test 2: Vérification de la génération avec données
+                    console.log("Test 2: Données non vides...");
+                    simulateInput('data', 'https://example.com');
+                    setTimeout(() => {
+                       const canvasExistsData = qrCodeDiv.querySelector('canvas') !== null;
+                       console.assert(canvasExistsData, 'Test 2 ÉCHOUÉ: Aucun canvas trouvé alors que des données sont présentes.');
+                       if (!canvasExistsData) testPassed = false;
 
-                // Test 3: Vérification du bouton de téléchargement
-                console.assert(!downloadBtn.disabled, 'Test 3 échoué: Bouton de téléchargement non activé');
+                       // Test 3: Vérification du bouton de téléchargement (activé)
+                       console.log("Test 3: Bouton Télécharger (activé)...");
+                       console.assert(!downloadBtn.disabled, 'Test 3 ÉCHOUÉ: Bouton de téléchargement désactivé alors que des données sont présentes.');
+                       if (downloadBtn.disabled) testPassed = false;
 
-                console.log('Tests terminés');
+                       // Test 4: Vérification du bouton de téléchargement (désactivé après suppression des données)
+                       console.log("Test 4: Bouton Télécharger (désactivé)...");
+                       simulateInput('data', ''); // Vider à nouveau
+                        setTimeout(() => {
+                            console.assert(downloadBtn.disabled, 'Test 4 ÉCHOUÉ: Bouton de téléchargement reste activé après suppression des données.');
+                            if (!downloadBtn.disabled) testPassed = false;
+
+
+                            console.log(`------ Tests terminés. ${testPassed ? 'Tous les tests ont réussi.' : 'Au moins un test a échoué.'} ------`);
+                            // Remettre une valeur par défaut pour l'utilisateur après les tests
+                            simulateInput('data', 'https://github.com');
+
+                        }, 50); // Petit délai
+
+                    }, 50); // Petit délai
+
+                }, 50); // Petit délai pour laisser le temps à generateQRCode de vider la div
+
+
             }
 
-            // Exécuter les tests au chargement
-            runTests();
+            // Exécuter les tests après un court délai pour laisser les librairies s'initialiser complètement
+            setTimeout(runTests, 100);
+
+             // Générer un QR code initial si on veut (optionnel)
+             // setTimeout(() => simulateInput('data', 'Bienvenue!'), 200);
+
         });
     </script>
 </body>
