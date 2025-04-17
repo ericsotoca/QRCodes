@@ -151,89 +151,102 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
     <script>
-        // Attendre que jQuery soit chargé
+        // Vérifier que jQuery est chargé
         if (typeof jQuery === 'undefined') {
             console.error('jQuery n\'est pas chargé. Veuillez vérifier le CDN.');
-        } else {
-            $(document).ready(function() {
-                const qrCodeDiv = document.getElementById('qrcode');
-                const downloadBtn = document.getElementById('downloadBtn');
-                let qrCode = null;
-                
-                // Fonction pour générer le QR Code
-                function generateQRCode() {
-                    const data = document.getElementById('data').value.trim();
-                    const size = parseInt(document.getElementById('size').value);
-                    const color = document.getElementById('color').value;
-                    const bgColor = document.getElementById('bgColor').value;
-                    
-                    // Vider le conteneur
-                    qrCodeDiv.innerHTML = '';
-                    downloadBtn.disabled = !data;
-                    
-                    if (data) {
-                        // Créer un nouveau QR Code avec une valeur numérique pour le niveau de correction
-                        qrCode = new QRCode(qrCodeDiv, {
-                            text: data,
-                            width: size,
-                            height: size,
-                            colorDark: color,
-                            colorLight: bgColor,
-                            correctLevel: 3 // Remplace QRCode.CorrectLevel.H
-                        });
-                    }
-                }
-                
-                // Gestion des événements avec JavaScript natif pour éviter les problèmes avec jQuery
-                const inputs = ['data', 'size', 'color', 'bgColor'];
-                inputs.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.addEventListener('input', generateQRCode);
-                        element.addEventListener('change', generateQRCode);
-                    }
-                });
-                
-                // Téléchargement du QR Code
-                if (downloadBtn) {
-                    downloadBtn.addEventListener('click', function() {
-                        const format = document.getElementById('format').value;
-                        const canvas = qrCodeDiv.querySelector('canvas');
-                        
-                        if (canvas) {
-                            const dataUrl = canvas.toDataURL(`image/${format}`);
-                            const link = document.createElement('a');
-                            link.download = `qrcode.${format}`;
-                            link.href = dataUrl;
-                            link.click();
-                        }
+            throw new Error('jQuery requis');
+        }
+
+        // Vérifier que QRCode est chargé
+        if (typeof QRCode === 'undefined') {
+            console.error('QRCode.js n\'est pas chargé. Veuillez vérifier le CDN.');
+            throw new Error('QRCode.js requis');
+        }
+
+        $(document).ready(function() {
+            const qrCodeDiv = document.getElementById('qrcode');
+            const downloadBtn = document.getElementById('downloadBtn');
+            let qrCode = null;
+
+            // Fonction pour générer le QR Code
+            function generateQRCode() {
+                const data = document.getElementById('data').value.trim();
+                const size = parseInt(document.getElementById('size').value);
+                const color = document.getElementById('color').value;
+                const bgColor = document.getElementById('bgColor').value;
+
+                // Vider le conteneur
+                qrCodeDiv.innerHTML = '';
+                downloadBtn.disabled = !data;
+
+                if (data) {
+                    // Créer un nouveau QR Code avec une valeur numérique pour le niveau de correction
+                    qrCode = new QRCode(qrCodeDiv, {
+                        text: data,
+                        width: size,
+                        height: size,
+                        colorDark: color,
+                        colorLight: bgColor,
+                        correctLevel: 3 // Remplace QRCode.CorrectLevel.H
                     });
                 }
-                
-                // Tests unitaires de base
-                function runTests() {
-                    console.log('Exécution des tests...');
-                    
-                    // Test 1: Vérification de la génération avec données vides
-                    document.getElementById('data').value = '';
-                    generateQRCode();
-                    console.assert(qrCodeDiv.children.length === 0, 'Test 1 échoué: QR Code généré avec données vides');
-                    
-                    // Test 2: Vérification de la génération avec données
-                    document.getElementById('data').value = 'https://example.com';
-                    generateQRCode();
-                    console.assert(qrCodeDiv.children.length > 0, 'Test 2 échoué: QR Code non généré avec données');
-                    
-                    // Test 3: Vérification du bouton de téléchargement
-                    console.assert(!downloadBtn.disabled, 'Test 3 échoué: Bouton de téléchargement non activé');
-                    
-                    console.log('Tests terminés');
+            }
+
+            // Gestion des événements avec JavaScript natif pour éviter les problèmes
+            const inputs = ['data', 'size', 'color', 'bgColor'];
+            inputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', generateQRCode);
+                    element.addEventListener('change', generateQRCode);
+                } else {
+                    console.warn(`Élément avec l'ID "${id}" non trouvé`);
                 }
-                
-                // Exécuter les tests au chargement
-                runTests();
             });
-        }
+
+            // Téléchargement du QR Code
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    const format = document.getElementById('format').value;
+                    const canvas = qrCodeDiv.querySelector('canvas');
+
+                    if (canvas) {
+                        const dataUrl = canvas.toDataURL(`image/${format}`);
+                        const link = document.createElement('a');
+                        link.download = `qrcode.${format}`;
+                        link.href = dataUrl;
+                        link.click();
+                    } else {
+                        console.warn('Aucun canvas trouvé pour le téléchargement');
+                    }
+                });
+            } else {
+                console.warn('Bouton de téléchargement non trouvé');
+            }
+
+            // Tests unitaires de base
+            function runTests() {
+                console.log('Exécution des tests...');
+
+                // Test 1: Vérification de la génération avec données vides
+                document.getElementById('data').value = '';
+                generateQRCode();
+                console.assert(qrCodeDiv.children.length === 0, 'Test 1 échoué: QR Code généré avec données vides');
+
+                // Test 2: Vérification de la génération avec données
+                document.getElementById('data').value = 'https://example.com';
+                generateQRCode();
+                console.assert(qrCodeDiv.children.length > 0, 'Test 2 échoué: QR Code non généré avec données');
+
+                // Test 3: Vérification du bouton de téléchargement
+                console.assert(!downloadBtn.disabled, 'Test 3 échoué: Bouton de téléchargement non activé');
+
+                console.log('Tests terminés');
+            }
+
+            // Exécuter les tests au chargement
+            runTests();
+        });
     </script>
 </body>
 </html>
