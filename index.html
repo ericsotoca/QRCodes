@@ -8,103 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* --- Votre CSS reste inchangé --- */
-        body {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        .container {
-            max-width: 900px;
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.5s ease-in;
-        }
-        h1 {
-            color: #333;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            background: linear-gradient(to right, #6e8efb, #a777e3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .form-control {
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus {
-            border-color: #6e8efb;
-            box-shadow: 0 0 10px rgba(110, 142, 251, 0.3);
-        }
-        .form-group label {
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 0.5rem;
-        }
-        .btn-primary {
-            background: linear-gradient(to right, #6e8efb, #a777e3);
-            border: none;
-            border-radius: 10px;
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
-        }
-        #qrcode {
-            margin: 2rem auto;
-            text-align: center;
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 15px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-            min-height: 100px; /* Ajout d'une hauteur minimale pour la visibilité */
-            display: flex; /* Pour centrer facilement le contenu */
-            align-items: center;
-            justify-content: center;
-            animation: slideIn 0.5s ease;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        input[type="color"] {
-            padding: 0;
-            height: 40px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23444' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            padding-right: 2.5rem;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @media (max-width: 576px) {
-            .container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
+        body { background: linear-gradient(135deg, #6e8efb, #a777e3); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        .container { max-width: 900px; background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); animation: fadeIn 0.5s ease-in; }
+        h1 { color: #333; font-weight: 700; text-align: center; margin-bottom: 2rem; background: linear-gradient(to right, #6e8efb, #a777e3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-control { border-radius: 10px; border: 2px solid #e0e0e0; transition: all 0.3s ease; }
+        .form-control:focus { border-color: #6e8efb; box-shadow: 0 0 10px rgba(110, 142, 251, 0.3); }
+        .form-group label { font-weight: 600; color: #444; margin-bottom: 0.5rem; }
+        .btn-primary { background: linear-gradient(to right, #6e8efb, #a777e3); border: none; border-radius: 10px; padding: 0.75rem 2rem; font-weight: 600; transition: transform 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4); }
+        #qrcode { margin: 2rem auto; text-align: center; background: #f8f9fa; padding: 1rem; border-radius: 15px; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); min-height: 100px; display: flex; align-items: center; justify-content: center; animation: slideIn 0.5s ease; }
+        .form-group { margin-bottom: 1.5rem; }
+        input[type="color"] { padding: 0; height: 40px; border-radius: 10px; cursor: pointer; }
+        select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23444' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @media (max-width: 576px) { .container { margin: 1rem; padding: 1.5rem; } h1 { font-size: 1.8rem; } }
     </style>
 </head>
 <body>
@@ -112,103 +30,84 @@
         <h1>Générateur de QR Codes</h1>
 
         <form id="qrForm">
-            <div class="form-group">
+            <!-- ... (contenu du formulaire inchangé) ... -->
+             <div class="form-group">
                 <label for="data">Contenu du QR Code</label>
                 <textarea class="form-control" id="data" rows="3" placeholder="Entrez une URL, du texte, etc."></textarea>
             </div>
-
             <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="size">Taille (px)</label>
-                    <input type="number" class="form-control" id="size" value="200" min="100" max="1000">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="color">Couleur</label>
-                    <input type="color" class="form-control" id="color" value="#000000">
-                </div>
+                <div class="col-md-6 form-group"><label for="size">Taille (px)</label><input type="number" class="form-control" id="size" value="200" min="100" max="1000"></div>
+                <div class="col-md-6 form-group"><label for="color">Couleur</label><input type="color" class="form-control" id="color" value="#000000"></div>
             </div>
-
             <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="bgColor">Couleur de fond</label>
-                    <input type="color" class="form-control" id="bgColor" value="#ffffff">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="format">Format</label>
-                    <select class="form-control" id="format">
-                        <option value="png">PNG</option>
-                        <option value="jpeg">JPEG</option>
-                    </select>
-                </div>
+                <div class="col-md-6 form-group"><label for="bgColor">Couleur de fond</label><input type="color" class="form-control" id="bgColor" value="#ffffff"></div>
+                <div class="col-md-6 form-group"><label for="format">Format</label><select class="form-control" id="format"><option value="png">PNG</option><option value="jpeg">JPEG</option></select></div>
             </div>
-
-            <div class="text-center">
-                <button type="button" class="btn btn-primary" id="downloadBtn" disabled>Télécharger</button>
-            </div>
+            <div class="text-center"><button type="button" class="btn btn-primary" id="downloadBtn" disabled>Télécharger</button></div>
         </form>
 
         <div id="qrcode">
-             <!-- Le QR code sera généré ici -->
-             <p class="text-muted">Entrez du contenu pour générer un QR code.</p> <!-- Message initial -->
+             <p class="text-muted">Entrez du contenu pour générer un QR code.</p>
         </div>
     </div>
 
-    <!-- Librairies (jQuery et Bootstrap peuvent rester ici ou être mises dans le head) -->
+    <!-- Librairies -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- IMPORTANT : La librairie qrcode.min.js AVANT votre script personnalisé -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
     <!-- Votre script personnalisé -->
     <script>
-        // Utiliser window.addEventListener('load', ...) au lieu de $(document).ready()
         window.addEventListener('load', function() {
-            console.log("Window loaded, initialisation du script QR Code..."); // Log pour confirmer l'exécution
+            console.log("Window loaded, initialisation du script QR Code...");
+
+            // ----> AJOUT DE LA VÉRIFICATION IMMÉDIATE <----
+            if (typeof QRCode !== 'undefined') {
+                console.log("Vérification initiale: L'objet QRCode est DÉFINI.");
+                if (typeof QRCode.CorrectLevel !== 'undefined') {
+                     console.log("Vérification initiale: QRCode.CorrectLevel est DÉFINI.");
+                } else {
+                     console.warn("Vérification initiale: QRCode.CorrectLevel est INDÉFINI !");
+                }
+            } else {
+                console.error("Vérification initiale: L'objet QRCode est INDÉFINI ! Le script externe n'a probablement pas chargé.");
+                // On pourrait arrêter l'exécution ici si on voulait
+                // return;
+            }
+            // ---------------------------------------------
 
             const qrCodeDiv = document.getElementById('qrcode');
             const downloadBtn = document.getElementById('downloadBtn');
 
-            // Fonction pour générer le QR Code
             function generateQRCode() {
                 const data = document.getElementById('data').value.trim();
                 const size = parseInt(document.getElementById('size').value);
                 const color = document.getElementById('color').value;
                 const bgColor = document.getElementById('bgColor').value;
 
-                // Vider le conteneur précédent
                 qrCodeDiv.innerHTML = '';
-                downloadBtn.disabled = !data; // Désactive le bouton si pas de données
+                downloadBtn.disabled = !data;
 
                 if (data) {
                     try {
-                        // Vérifier explicitement si QRCode et CorrectLevel sont définis
+                        // La vérification explicite est toujours utile ici au cas où
                         if (typeof QRCode === 'undefined' || typeof QRCode.CorrectLevel === 'undefined') {
                            throw new Error("La librairie QRCode n'est pas chargée ou initialisée correctement.");
                         }
-
-                        // Créer un nouveau QR Code
                         new QRCode(qrCodeDiv, {
-                            text: data,
-                            width: size,
-                            height: size,
-                            colorDark: color,
-                            colorLight: bgColor,
-                            correctLevel: QRCode.CorrectLevel.H // Ceci DEVRAIT fonctionner maintenant
+                            text: data, width: size, height: size, colorDark: color, colorLight: bgColor,
+                            correctLevel: QRCode.CorrectLevel.H
                         });
-                         // Le bouton est déjà activé ci-dessus si data existe
                     } catch (error) {
                          console.error("Erreur lors de la génération du QR Code:", error);
-                         // Afficher un message d'erreur à l'utilisateur
                          qrCodeDiv.innerHTML = `<p class="text-danger">Impossible de générer le QR code. (${error.message})</p>`;
-                         downloadBtn.disabled = true; // Désactiver le bouton en cas d'erreur
+                         downloadBtn.disabled = true;
                     }
                 } else {
-                    // Afficher un message si le champ est vide
                     qrCodeDiv.innerHTML = '<p class="text-muted">Entrez du contenu pour générer un QR code.</p>';
                 }
             }
 
-            // Gestion des événements sur les champs de formulaire
             const inputs = ['data', 'size', 'color', 'bgColor'];
             inputs.forEach(id => {
                 const element = document.getElementById(id);
@@ -218,99 +117,53 @@
                 }
             });
 
-            // Téléchargement du QR Code
-            downloadBtn.addEventListener('click', function() {
+            downloadBtn.addEventListener('click', function() { /* ... (code de téléchargement inchangé) ... */
                 const format = document.getElementById('format').value;
                 const canvas = qrCodeDiv.querySelector('canvas');
-
                 if (canvas) {
                     const dataUrl = canvas.toDataURL(`image/${format}`);
                     const link = document.createElement('a');
                     let filename = "qrcode";
                     const dataInput = document.getElementById('data').value.trim();
-                    if (dataInput) {
-                        filename = dataInput.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase() || "qrcode";
-                    }
+                    if (dataInput) { filename = dataInput.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase() || "qrcode"; }
                     link.download = `${filename}.${format}`;
                     link.href = dataUrl;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
                 } else {
-                    console.warn('Aucun canvas trouvé pour le téléchargement. Le QR Code a-t-il été généré ?');
+                    console.warn('Aucun canvas trouvé pour le téléchargement.');
                     alert("Impossible de télécharger : aucun QR code n'est affiché.");
                 }
-            });
+             });
 
-            // --- Section Tests Unitaires ---
-            function runTests() {
-                console.log('Exécution des tests...');
+            function runTests() { /* ... (code des tests inchangé) ... */
+                 console.log('Exécution des tests...');
                 let testPassed = true;
-
-                function simulateInput(elementId, value) {
-                    const element = document.getElementById(elementId);
-                    if (!element) {
-                        console.error(`Élément non trouvé pour la simulation : ${elementId}`);
-                        return;
-                    }
-                    element.value = value;
-                    element.dispatchEvent(new Event('input', { bubbles: true }));
-                    element.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-
-                // Attendre un court instant que generateQRCode (potentiellement déclenchée par l'init) finisse
+                function simulateInput(elementId, value) { const element = document.getElementById(elementId); if (!element) { console.error(`Élément non trouvé : ${elementId}`); return; } element.value = value; element.dispatchEvent(new Event('input', { bubbles: true })); element.dispatchEvent(new Event('change', { bubbles: true })); }
                 setTimeout(() => {
-                    // Test 1: Vérification de la génération avec données vides
-                    console.log("Test 1: Données vides...");
-                    simulateInput('data', '');
+                    console.log("Test 1: Données vides..."); simulateInput('data', '');
                     setTimeout(() => {
-                        const canvasExistsEmpty = qrCodeDiv.querySelector('canvas') !== null;
-                        const isEmptyMessagePresent = qrCodeDiv.querySelector('p.text-muted') !== null;
-                        console.assert(!canvasExistsEmpty && isEmptyMessagePresent, 'Test 1 ÉCHOUÉ: Le canvas existe ou le message pour vide est absent.');
-                        if (canvasExistsEmpty || !isEmptyMessagePresent) testPassed = false;
-
-                        // Test 2: Vérification de la génération avec données
-                        console.log("Test 2: Données non vides...");
-                        simulateInput('data', 'https://example.com');
+                        const canvasExistsEmpty = qrCodeDiv.querySelector('canvas') !== null; const isEmptyMessagePresent = qrCodeDiv.querySelector('p.text-muted') !== null;
+                        console.assert(!canvasExistsEmpty && isEmptyMessagePresent, 'Test 1 ÉCHOUÉ: Canvas existe ou msg vide absent.'); if (canvasExistsEmpty || !isEmptyMessagePresent) testPassed = false;
+                        console.log("Test 2: Données non vides..."); simulateInput('data', 'https://example.com');
                         setTimeout(() => {
                             const canvasExistsData = qrCodeDiv.querySelector('canvas') !== null;
-                            console.assert(canvasExistsData, 'Test 2 ÉCHOUÉ: Aucun canvas trouvé alors que des données sont présentes.');
-                            if (!canvasExistsData) testPassed = false;
-
-                            // Test 3: Vérification du bouton de téléchargement (activé)
+                            console.assert(canvasExistsData, 'Test 2 ÉCHOUÉ: Aucun canvas trouvé.'); if (!canvasExistsData) testPassed = false;
                             console.log("Test 3: Bouton Télécharger (activé)...");
-                            console.assert(!downloadBtn.disabled, 'Test 3 ÉCHOUÉ: Bouton de téléchargement désactivé alors que des données sont présentes.');
-                            if (downloadBtn.disabled) testPassed = false;
-
-                            // Test 4: Vérification du bouton de téléchargement (désactivé après suppression des données)
-                            console.log("Test 4: Bouton Télécharger (désactivé)...");
-                            simulateInput('data', ''); // Vider à nouveau
+                            console.assert(!downloadBtn.disabled, 'Test 3 ÉCHOUÉ: Bouton désactivé.'); if (downloadBtn.disabled) testPassed = false;
+                            console.log("Test 4: Bouton Télécharger (désactivé)..."); simulateInput('data', '');
                             setTimeout(() => {
-                                console.assert(downloadBtn.disabled, 'Test 4 ÉCHOUÉ: Bouton de téléchargement reste activé après suppression des données.');
-                                if (!downloadBtn.disabled) testPassed = false;
-
+                                console.assert(downloadBtn.disabled, 'Test 4 ÉCHOUÉ: Bouton activé.'); if (!downloadBtn.disabled) testPassed = false;
                                 console.log(`------ Tests terminés. ${testPassed ? 'Tous les tests ont réussi.' : 'Au moins un test a échoué.'} ------`);
-                                // Optionnel : Remettre une valeur par défaut pour l'utilisateur après les tests
-                                // simulateInput('data', 'https://github.com');
-
-                            }, 100); // Délai pour MAJ DOM/bouton
-
-                        }, 100); // Délai pour génération canvas
-
-                    }, 100); // Délai pour MAJ DOM
-
-                }, 50); // Délai initial après 'load'
+                            }, 100);
+                        }, 100);
+                    }, 100);
+                }, 50);
             }
 
-            // Exécuter les tests APRÈS que la fenêtre soit chargée
+            // Exécuter les tests APRÈS que la fenêtre soit chargée et la vérification initiale faite
             runTests();
 
-            // Optionnel: Déclencher une première génération si le champ data a déjà une valeur au chargement
-            // if (document.getElementById('data').value.trim()) {
-            //     generateQRCode();
-            // }
-
-        }); // Fin de window.addEventListener('load', ...)
+        });
     </script>
 </body>
 </html>
