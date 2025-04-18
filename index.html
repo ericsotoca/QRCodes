@@ -29,7 +29,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4 pb-16">
     <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md">
         <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">QR Code Generator</h1>
         
@@ -96,9 +96,10 @@
             </a>
         </div>
     </div>
-<footer>
-   	<p class="more-apps-link"><a href="https://ericsotoca.github.io/" target="_blank" rel="noopener noreferrer">Plus d'Applis ? Cliquez ici !</a></p>
-</footer>
+
+    <footer class="mt-8 text-center w-full text-gray-600 text-sm">
+        <p><a href="https://ericsotoca.github.io/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition-colors">Plus d'Applis ? Cliquez ici !</a></p>
+    </footer>
 
     <script>
         let qrCodeInstance = null;
